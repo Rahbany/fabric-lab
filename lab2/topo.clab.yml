@@ -1,0 +1,19 @@
+name: fabric
+topology:
+  defaults:
+    kind: linux
+    image: quay.io/frrouting/frr:10.6.1
+  nodes:
+    spine1:
+      binds: [spine1/daemons:/etc/frr/daemons, spine1/frr.conf:/etc/frr/frr.conf]
+    spine2:
+      binds: [spine2/daemons:/etc/frr/daemons, spine2/frr.conf:/etc/frr/frr.conf]
+    leaf1:
+      binds: [leaf1/daemons:/etc/frr/daemons, leaf1/frr.conf:/etc/frr/frr.conf]
+    leaf2:
+      binds: [leaf2/daemons:/etc/frr/daemons, leaf2/frr.conf:/etc/frr/frr.conf]
+  links:
+    - endpoints: ["leaf1:eth1", "spine1:eth1"]
+    - endpoints: ["leaf1:eth2", "spine2:eth1"]
+    - endpoints: ["leaf2:eth1", "spine1:eth2"]
+    - endpoints: ["leaf2:eth2", "spine2:eth2"]
